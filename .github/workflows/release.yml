@@ -45,7 +45,7 @@ jobs:
         working-directory: app
 
       - name: run goreleaser
-        run: goreleaser release --snapshot --rm-dist
+        run: goreleaser release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: app
