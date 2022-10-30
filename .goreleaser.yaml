@@ -1,0 +1,43 @@
+project_name: rand-beer
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: 'rand-beer'
+    main: ./
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - 386
+      - amd64
+    ldflags:
+      - '-s'
+      - '-w'
+      - '-X main.version={{ .Version }}'
+      - '-X main.osArch={{ .Os }}/{{ .Arch }}'
+
+archives:
+  - id: "rand-beer"
+    replacements:
+      darwin: osx
+      386: i386
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE*
+
+checksum:
+  name_template: 'checksums.txt'
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'

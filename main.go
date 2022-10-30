@@ -8,7 +8,7 @@ import (
 )
 
 var version = ""
-var buildArch = ""
+var osArch = ""
 
 func main() {
 	if len(os.Args) < 2 {
@@ -17,7 +17,7 @@ func main() {
 	}
 
 	if os.Args[1] == "version" {
-		fmt.Printf("rand-beer version %s %s\n", version, buildArch)
+		fmt.Printf("rand-beer version %s %s\n", version, osArch)
 		return
 	}
 
