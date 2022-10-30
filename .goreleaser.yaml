@@ -33,6 +33,17 @@ archives:
     files:
       - LICENSE*
 
+chocolateys:
+  - name: 'rand-beer'
+    authors: faabiosr
+    project_url: https://github.com/faabiosr/rand-beer
+    copyright: 2022 Fabio Ribeiro
+    license_url: https://github.com/faabiosr/rand-beer/blob/main/LICENSE
+    tags: "beer random names"
+    summary: Generates random beer names
+    description: |
+      {{ .ProjectName }} generates random beer names every time that you run.
+
 checksum:
   name_template: 'checksums.txt'
 changelog:
