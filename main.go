@@ -1,3 +1,4 @@
+// Package main
 package main
 
 import (
@@ -7,11 +8,17 @@ import (
 	fake "github.com/brianvoe/gofakeit/v6"
 )
 
-var version = ""
-var osArch = ""
+const unknown = "unknown"
+
+// variables are expected to be set at build time.
+var (
+	version = unknown
+	osArch  = unknown
+)
 
 func main() {
-	if len(os.Args) < 2 {
+	const nArgs = 2
+	if len(os.Args) < nArgs {
 		fmt.Println(fake.BeerName())
 		return
 	}

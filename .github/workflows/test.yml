@@ -3,27 +3,55 @@ name: test
 on:
   push:
     branches:
+      - main
       - develop
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout the code
-        uses: actions/checkout@v3
-
-      - name: unshallow
-        run: git fetch --prune --unshallow
-
       - name: setup go
         uses: actions/setup-go@v3
         with:
           go-version: '1.19.x'
 
-      - name: run goreleaser
-        uses: goreleaser/goreleaser-action@v3
+
+      - name: checkout the code
+        uses: actions/checkout@v3
         with:
-          version: latest
-          args: release --snapshot --rm-dist
+          path: 'app'
+
+      - name: unshallow
+        run: git fetch --prune --unshallow
+        working-directory: app
+
+      - name: golanci-linter
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.50.1
+          working-directory: app
+
+      - name: install chocolatey
+        run: |
+          mkdir -p /opt/chocolatey
+          wget -q -O - "https://github.com/chocolatey/choco/releases/download/${CHOCOLATEY_VERSION}/chocolatey.v${CHOCOLATEY_VERSION}.tar.gz" | tar -xz -C "/opt/chocolatey"
+          echo '#!/bin/bash' >> /usr/local/bin/choco.exe
+          echo 'mono /opt/chocolatey/choco.exe $@' >> /usr/local/bin/choco.exe
+          chmod +x /usr/local/bin/choco.exe
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHOCOLATEY_VERSION: 1.2.0
+
+      - name: checkout custom goreleaser
+        uses: actions/checkout@v3
+        with:
+          repository: 'faabiosr/goreleaser'
+          ref: 'choco-pack'
+          path: 'goreleaser'
+
+      - name: install goreleaser
+        run: go install .
+        working-directory: goreleaser
+
+      - name: run goreleaser
+        run: goreleaser release --snapshot --rm-dist
+        working-directory: app
