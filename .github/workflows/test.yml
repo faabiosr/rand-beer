@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: 'faabiosr/goreleaser'
-          ref: 'choco-pack'
+          ref: 'chocolatey'
           path: 'goreleaser'
 
       - name: install goreleaser
