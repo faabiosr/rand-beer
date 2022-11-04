@@ -30,8 +30,6 @@ archives:
     format_overrides:
       - goos: windows
         format: zip
-    files:
-      - none*
 
 chocolateys:
   -
@@ -62,7 +60,7 @@ chocolateys:
     title: Rand Beer
 
     # Your app's authors (probably you).
-    # Defauls are shown below.
+    # Defaults are shown below.
     authors: faabiosr
 
     # Your app's project url.
@@ -71,7 +69,6 @@ chocolateys:
 
     # Template for the url which is determined by the given Token (github,
     # gitlab or gitea)
-    #
     # Default depends on the client.
     url_template: "https://github.com/faabiosr/rand-beer/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
 
@@ -121,12 +118,26 @@ chocolateys:
     # Supports markdown. To prevent the need to continually update this field,
     # providing a URL to an external list of Release Notes is perfectly
     # acceptable.
-    #
     # Default is empty.
     release_notes: "https://github.com/faabiosr/rand-beer/releases/tag/v{{ .Version }}"
 
-    # GOAMD64 to specify which amd64 version to use if there are multiple versions
-    # from the build section.
+    # The api key that should be used to push to the chocolatey repository.
+    #
+    # WARNING: do not expose your api key in the configuration file!
+    api_key: '{{ .Env.CHOCOLATEY_API_KEY }}'
+
+    # The source repository that will push the package to.
+    #
+    # Defaults are shown below.
+    source_repo: "https://push.chocolatey.org/"
+
+    # Setting this will prevent goreleaser to actually try to push the package
+    # to chocolatey repository, leaving the responsability of publishing it to
+    # the user.
+    skip_publish: false
+
+    # GOAMD64 to specify which amd64 version to use if there are multiple
+    # versions from the build section.
     # Default is v1.
     goamd64: v1
 
